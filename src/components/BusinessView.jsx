@@ -99,11 +99,11 @@ export function BusinessView({
             <div className="biz-title-row">
               <h2 className="biz-name">{business.name}</h2>
               <span className="badge badge-green">
-                <Check size={12} /> Verified Merchant
+                <Check size={12} /> {t?.verifiedMerchant || "Verified Merchant"}
               </span>
             </div>
             <p className="biz-meta">
-              Till Shortcode: <strong>{business.shortcode}</strong> • Safaricom Escrow Channel
+              {t?.tillShortcode || "Till Shortcode"}: <strong>{business.shortcode}</strong> • {t?.escrowChannel || "Safaricom Escrow Channel"}
             </p>
           </div>
         </div>
@@ -111,18 +111,18 @@ export function BusinessView({
         {/* Escrow Metric Cards */}
         <div className="biz-metrics-row">
           <div className="biz-metric-item">
-            <span className="metric-lbl">M-Pesa Escrow Balance</span>
+            <span className="metric-lbl">{t?.mpesaEscrowBalance || "M-Pesa Escrow Balance"}</span>
             <span className="metric-val text-green">
               {business.balanceInEscrowETB.toLocaleString()} <span className="text-gold text-sm">ETB</span>
             </span>
           </div>
           <div className="biz-metric-item">
-            <span className="metric-lbl">Total Tasks Approved</span>
+            <span className="metric-lbl">{t?.totalTasksApproved || "Total Tasks Approved"}</span>
             <span className="metric-val">{business.totalTasksApproved}</span>
           </div>
           <div className="biz-metric-item">
-            <span className="metric-lbl">Avg. Review Speed</span>
-            <span className="metric-val text-blue">{business.avgReviewTimeMinutes} mins</span>
+            <span className="metric-lbl">{t?.avgReviewSpeed || "Avg. Review Speed"}</span>
+            <span className="metric-val text-blue">{business.avgReviewTimeMinutes} {t?.mins || "mins"}</span>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@ export function BusinessView({
           onClick={() => { setActiveTab('review'); sound.playKeypadBeep(); }}
         >
           <Layers size={18} />
-          <span>{t.reviewSubmissions}</span>
+          <span>{t?.reviewSubmissions || "Review Submissions"}</span>
           {submissions.filter(s => s.status === 'pending').length > 0 && (
             <span className="pending-badge-pill">
               {submissions.filter(s => s.status === 'pending').length}
@@ -147,7 +147,7 @@ export function BusinessView({
           onClick={() => { setActiveTab('create'); sound.playKeypadBeep(); }}
         >
           <PlusCircle size={18} />
-          <span>{t.postTaskTitle}</span>
+          <span>{t?.postTaskTitle || "Fund & Post Micro-Task"}</span>
         </button>
 
         <button 
@@ -155,7 +155,7 @@ export function BusinessView({
           onClick={() => { setActiveTab('analytics'); sound.playKeypadBeep(); }}
         >
           <BarChart3 size={18} />
-          <span>Analytics & Cost Savings</span>
+          <span>{t?.analyticsTab || "Analytics & Cost Savings"}</span>
         </button>
       </div>
 
@@ -164,14 +164,14 @@ export function BusinessView({
         <div className="review-queue-section animate-fade-in">
           <div className="queue-header-row mb-4">
             <div>
-              <h3 className="section-heading">Worker Submissions Queue</h3>
+              <h3 className="section-heading">{t?.submissionsQueue || "Worker Submissions Queue"}</h3>
               <p className="section-subheading">
-                AI screening automatically flags duplicates & low quality. You keep final approval authority.
+                {t?.submissionsSubtitle || "AI screening automatically flags duplicates & low quality. You keep final approval authority."}
               </p>
             </div>
             <div className="ai-status-pill">
               <Sparkles size={16} className="text-green" />
-              <span>AI Pre-Screening: ACTIVE</span>
+              <span>{t?.aiActive || "AI Pre-Screening: ACTIVE"}</span>
             </div>
           </div>
 
@@ -179,8 +179,8 @@ export function BusinessView({
             {submissions.filter(s => s.status === 'pending').length === 0 ? (
               <div className="empty-tasks-card glass-card">
                 <CheckCircle size={40} className="text-green mb-2" />
-                <h4 className="font-semibold text-lg">All Submissions Reviewed!</h4>
-                <p className="text-muted text-sm">Great job! There are no pending task submissions waiting for verification.</p>
+                <h4 className="font-semibold text-lg">{t?.allReviewed || "All Submissions Reviewed!"}</h4>
+                <p className="text-muted text-sm">{t?.allReviewedDesc || "Great job! There are no pending task submissions waiting for verification."}</p>
               </div>
             ) : (
               submissions.filter(s => s.status === 'pending').map((sub) => (
@@ -198,19 +198,19 @@ export function BusinessView({
                             {sub.workerTier}
                           </span>
                         </div>
-                        <span className="sub-meta-phone">{sub.workerPhone} • Trust: {sub.workerTrustScore}/100</span>
+                        <span className="sub-meta-phone">{sub.workerPhone} • {t?.trustScore || "Trust"}: {sub.workerTrustScore}/100</span>
                       </div>
                     </div>
 
                     <div className="sub-reward-tag">
                       <span className="sub-reward-amount">+{sub.rewardETB.toFixed(2)} ETB</span>
-                      <span className="sub-reward-lbl">Escrow Payout</span>
+                      <span className="sub-reward-lbl">{t?.escrowPayout || "Escrow Payout"}</span>
                     </div>
                   </div>
 
                   {/* Task Title */}
                   <div className="sub-task-title-bar">
-                    <span className="text-xs text-muted">Task:</span>
+                    <span className="text-xs text-muted">{t?.taskLabel || "Task:"}</span>
                     <strong className="text-sm text-main">{sub.taskTitle}</strong>
                   </div>
 
@@ -219,7 +219,7 @@ export function BusinessView({
                     <div className="ai-screening-header">
                       <div className="flex items-center gap-2">
                         <Sparkles size={16} className="text-green" />
-                        <span className="font-bold text-sm">AI Screening Assistant</span>
+                        <span className="font-bold text-sm">{t?.aiAssistant || "AI Screening Assistant"}</span>
                       </div>
                       <span className={`badge ${sub.aiScreening.confidence >= 80 ? 'badge-green' : 'badge-red'}`}>
                         {sub.aiScreening.confidence}% Match
@@ -229,7 +229,7 @@ export function BusinessView({
                     <p className="ai-summary-text">{sub.aiScreening.summary}</p>
                     {sub.aiScreening.detectedText && (
                       <div className="ai-ocr-quote">
-                        <span className="text-xs text-muted">Detected OCR Content:</span>
+                        <span className="text-xs text-muted">{t?.detectedOcr || "Detected OCR Content:"}</span>
                         <p className="text-xs italic text-main">"{sub.aiScreening.detectedText}"</p>
                       </div>
                     )}
@@ -247,7 +247,7 @@ export function BusinessView({
                         <div className="dup-pass-box">
                           <ShieldCheck size={16} className="text-green flex-shrink-0" />
                           <span className="text-xs font-semibold text-green">
-                            Perceptual Hash Verified: Original unique screenshot.
+                            {t?.hashVerified || "Perceptual Hash Verified: Original unique screenshot."}
                           </span>
                         </div>
                       )}
@@ -264,11 +264,11 @@ export function BusinessView({
                         onClick={() => setSelectedSub(sub)}
                       />
                       <span className="click-to-enlarge-hint">
-                        <Eye size={12} /> Click to enlarge
+                        <Eye size={12} /> {t?.clickToEnlarge || "Click to enlarge"}
                       </span>
                     </div>
                     <div className="sub-proof-text-col">
-                      <label className="text-xs text-muted font-semibold">Worker Notes / Link:</label>
+                      <label className="text-xs text-muted font-semibold">{t?.workerNote || "Worker Notes / Link:"}</label>
                       <p className="worker-notes-quote">{sub.proofText}</p>
                     </div>
                   </div>
@@ -280,7 +280,7 @@ export function BusinessView({
                       onClick={() => handleOpenReject(sub)}
                     >
                       <XCircle size={15} />
-                      {t.reject}
+                      {t?.reject || "Reject"}
                     </button>
 
                     <button 
@@ -288,7 +288,7 @@ export function BusinessView({
                       onClick={() => handleApprove(sub)}
                     >
                       <CheckCircle size={15} />
-                      {t.approve}
+                      {t?.approve || "Approve & Pay"}
                     </button>
                   </div>
                 </div>
@@ -305,7 +305,7 @@ export function BusinessView({
             {/* Form Column */}
             <div className="create-form-card glass-card">
               <div className="form-card-header mb-4">
-                <h3 className="section-heading">{t.postTaskTitle}</h3>
+                <h3 className="section-heading">{t?.postTaskTitle || "Fund & Post Micro-Task"}</h3>
                 <p className="section-subheading">
                   Escrow model: Deposit reward pool via Safaricom M-Pesa STK Push. Workers earn only upon approval.
                 </p>
@@ -313,11 +313,11 @@ export function BusinessView({
 
               <form onSubmit={handlePostTaskSubmit} className="post-task-form">
                 <div className="form-group">
-                  <label className="form-label">Task Title</label>
+                  <label className="form-label">{t?.taskTitleLabel || "Task Title"}</label>
                   <input 
                     type="text" 
                     className="form-input" 
-                    placeholder="e.g. 5-Star Google Maps Review with Photo" 
+                    placeholder={t?.taskTitlePlaceholder || "e.g. 5-Star Google Maps Review with Photo"} 
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
@@ -326,22 +326,22 @@ export function BusinessView({
 
                 <div className="form-row-2">
                   <div className="form-group">
-                    <label className="form-label">Category</label>
+                    <label className="form-label">{t?.categoryLabel || "Category"}</label>
                     <select 
                       className="form-select"
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
                     >
-                      <option value="appReview">App & Maps Review</option>
-                      <option value="testing">App Testing & Feedback</option>
-                      <option value="surveys">Surveys & Questionnaires</option>
-                      <option value="social">Social Media Engagement</option>
-                      <option value="localData">Local Field Data</option>
+                      <option value="appReview">{t?.appReview || "App & Maps Review"}</option>
+                      <option value="testing">{t?.testing || "App Testing & Feedback"}</option>
+                      <option value="surveys">{t?.surveys || "Surveys & Questionnaires"}</option>
+                      <option value="social">{t?.social || "Social Media Engagement"}</option>
+                      <option value="localData">{t?.localData || "Local Field Data"}</option>
                     </select>
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Minimum Worker Tier</label>
+                    <label className="form-label">{t?.minTierLabel || "Minimum Worker Tier"}</label>
                     <select 
                       className="form-select"
                       value={minTier}
@@ -356,7 +356,7 @@ export function BusinessView({
 
                 <div className="form-row-2">
                   <div className="form-group">
-                    <label className="form-label">{t.slotsNeeded}</label>
+                    <label className="form-label">{t?.slotsNeeded || "Worker Slots Needed"}</label>
                     <input 
                       type="number" 
                       min="10"
@@ -369,7 +369,7 @@ export function BusinessView({
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">{t.rewardPerWorker}</label>
+                    <label className="form-label">{t?.rewardPerWorker || "Reward per Worker (ETB)"}</label>
                     <input 
                       type="number" 
                       min="5"
@@ -384,7 +384,7 @@ export function BusinessView({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Target Link or App URL (Optional)</label>
+                  <label className="form-label">{t?.targetUrlLabel || "Target Link or App URL (Optional)"}</label>
                   <input 
                     type="url" 
                     className="form-input" 
@@ -395,11 +395,11 @@ export function BusinessView({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Task Description</label>
+                  <label className="form-label">{t?.taskDescLabel || "Task Description"}</label>
                   <textarea 
                     className="form-textarea" 
                     rows="3"
-                    placeholder="Describe exactly what the worker needs to do..."
+                    placeholder={t?.taskDescPlaceholder || "Describe exactly what the worker needs to do..."}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
@@ -407,7 +407,7 @@ export function BusinessView({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Step-by-Step Instructions (1 per line)</label>
+                  <label className="form-label">{t?.stepByStepLabel || "Step-by-Step Instructions (1 per line)"}</label>
                   <textarea 
                     className="form-textarea" 
                     rows="3"
@@ -418,7 +418,7 @@ export function BusinessView({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Safaricom Phone for M-Pesa STK Push</label>
+                  <label className="form-label">{t?.phoneForPushLabel || "Safaricom Phone for M-Pesa STK Push"}</label>
                   <input 
                     type="tel" 
                     className="form-input" 
@@ -431,7 +431,7 @@ export function BusinessView({
 
                 <button type="submit" className="btn btn-primary btn-lg w-full">
                   <Flame size={18} />
-                  Initiate M-Pesa STK Push ({totalEscrowPushETB.toLocaleString()} ETB)
+                  {t?.initiatePush || "Initiate M-Pesa STK Push"} ({totalEscrowPushETB.toLocaleString()} ETB)
                 </button>
               </form>
             </div>
@@ -440,31 +440,31 @@ export function BusinessView({
             <div className="escrow-calc-col">
               <div className="escrow-calc-card glass-card">
                 <div className="calc-card-header">
-                  <span className="badge badge-gold">Transparent Escrow Model</span>
-                  <h4 className="calc-title">M-Pesa STK Push Breakdown</h4>
+                  <span className="badge badge-gold">{t?.transparentEscrow || "Transparent Escrow Model"}</span>
+                  <h4 className="calc-title">{t?.stkBreakdown || "M-Pesa STK Push Breakdown"}</h4>
                 </div>
 
                 <div className="calc-breakdown-table">
                   <div className="calc-row">
-                    <span className="calc-lbl">{t.slotsNeeded}:</span>
-                    <span className="calc-val">{slots} Workers</span>
+                    <span className="calc-lbl">{t?.slotsNeeded || "Slots Needed"}:</span>
+                    <span className="calc-val">{slots} {t?.workers || "Workers"}</span>
                   </div>
                   <div className="calc-row">
-                    <span className="calc-lbl">{t.rewardPerWorker}:</span>
+                    <span className="calc-lbl">{t?.rewardPerWorker || "Reward per Worker"}:</span>
                     <span className="calc-val">{rewardETB.toFixed(2)} ETB</span>
                   </div>
                   <div className="calc-divider"></div>
                   <div className="calc-row">
-                    <span className="calc-lbl">{t.escrowPool}:</span>
+                    <span className="calc-lbl">{t?.escrowPool || "Worker Escrow Pool"}:</span>
                     <span className="calc-val">{workerPoolETB.toFixed(2)} ETB</span>
                   </div>
                   <div className="calc-row">
-                    <span className="calc-lbl">{t.platformFee}:</span>
+                    <span className="calc-lbl">{t?.platformFee || "Platform Fee (15%)"}:</span>
                     <span className="calc-val">{platformFeeETB.toFixed(2)} ETB</span>
                   </div>
                   <div className="calc-divider"></div>
                   <div className="calc-row total-row">
-                    <span className="calc-lbl font-bold">{t.totalDeposit}:</span>
+                    <span className="calc-lbl font-bold">{t?.totalDeposit || "Total STK Push Amount"}:</span>
                     <span className="calc-total-val">
                       {totalEscrowPushETB.toFixed(2)} <span className="text-gold">ETB</span>
                     </span>
@@ -474,7 +474,7 @@ export function BusinessView({
                 <div className="calc-trust-notice">
                   <ShieldCheck size={20} className="text-green flex-shrink-0" />
                   <p className="text-xs text-muted">
-                    Funds are locked in the Safaricom M-Pesa escrow account. If slots remain unfulfilled or tasks are rejected, remaining escrow balance is fully refundable.
+                    {t?.escrowNotice || "Funds are locked in the Safaricom M-Pesa escrow account. If slots remain unfulfilled or tasks are rejected, remaining escrow balance is fully refundable."}
                   </p>
                 </div>
 
@@ -485,24 +485,24 @@ export function BusinessView({
                     onClick={onOpenStkPushSim}
                   >
                     <Smartphone size={15} />
-                    <span>Preview M-Pesa Phone Screen</span>
+                    <span>{t?.previewPhone || "Preview M-Pesa Phone Screen"}</span>
                   </button>
                 )}
               </div>
 
               {/* Agency Comparison Card */}
               <div className="agency-compare-card glass-card">
-                <h5 className="compare-title">Ethio Bucks vs Marketing Agencies</h5>
+                <h5 className="compare-title">{t?.agencyCompareTitle || "Ethio Bucks vs Marketing Agencies"}</h5>
                 <div className="compare-metric">
-                  <span className="text-xs text-muted">Traditional Agency Cost (100 reviews):</span>
+                  <span className="text-xs text-muted">{t?.agencyCost || "Traditional Agency Cost (100 reviews):"}</span>
                   <strong className="text-danger text-sm">~15,000 ETB + 30 Days</strong>
                 </div>
                 <div className="compare-metric">
-                  <span className="text-xs text-muted">Ethio Bucks Micro-Task Network:</span>
+                  <span className="text-xs text-muted">{t?.ethioBucksCost || "Ethio Bucks Micro-Task Network:"}</span>
                   <strong className="text-green text-sm">~2,875 ETB + Under 24 Hours</strong>
                 </div>
                 <div className="savings-badge">
-                  <span>80.8% Cost Savings for Ethiopian SMEs</span>
+                  <span>{t?.agencyCompareSavings || "80.8% Cost Savings for Ethiopian SMEs"}</span>
                 </div>
               </div>
             </div>
@@ -515,25 +515,25 @@ export function BusinessView({
         <div className="analytics-section animate-fade-in">
           <div className="analytics-grid">
             <div className="analytics-stat-card glass-card">
-              <span className="stat-label">Total Escrow Processed</span>
+              <span className="stat-label">{t?.totalEscrowProcessed || "Total Escrow Processed"}</span>
               <strong className="stat-value text-green">14,250 ETB</strong>
               <span className="stat-delta text-xs text-green">↑ 100% On-Chain via M-Pesa</span>
             </div>
 
             <div className="analytics-stat-card glass-card">
-              <span className="stat-label">Campaign Completion Rate</span>
+              <span className="stat-label">{t?.completionRate || "Campaign Completion Rate"}</span>
               <strong className="stat-value">94.8%</strong>
               <span className="stat-delta text-xs text-muted">Across 5 business campaigns</span>
             </div>
 
             <div className="analytics-stat-card glass-card">
-              <span className="stat-label">Average Approval-to-Payout</span>
+              <span className="stat-label">{t?.avgApprovalTime || "Average Approval-to-Payout"}</span>
               <strong className="stat-value text-gold">3.4 Mins</strong>
               <span className="stat-delta text-xs text-green">Under the 5-min target!</span>
             </div>
 
             <div className="analytics-stat-card glass-card">
-              <span className="stat-label">Fraudulent Proof Intercepted</span>
+              <span className="stat-label">{t?.fraudBlocked || "Fraudulent Proof Intercepted"}</span>
               <strong className="stat-value text-danger">18 Attempts</strong>
               <span className="stat-delta text-xs text-muted">Blocked by AI & pHash check</span>
             </div>
@@ -542,7 +542,7 @@ export function BusinessView({
           {/* Demographics & Insights */}
           <div className="analytics-details-grid mt-4">
             <div className="analytics-chart-card glass-card">
-              <h4 className="font-semibold mb-3">Worker Engagement by Sub-City (Addis Ababa)</h4>
+              <h4 className="font-semibold mb-3">{t?.subcityEngagement || "Worker Engagement by Sub-City (Addis Ababa)"}</h4>
               <div className="subcity-bars-list">
                 <div className="subcity-bar-item">
                   <div className="subcity-bar-meta">
@@ -576,7 +576,7 @@ export function BusinessView({
             </div>
 
             <div className="analytics-chart-card glass-card">
-              <h4 className="font-semibold mb-3">M-Pesa Escrow Settlement Health</h4>
+              <h4 className="font-semibold mb-3">{t?.escrowHealth || "M-Pesa Escrow Settlement Health"}</h4>
               <ul className="health-check-list">
                 <li className="health-item">
                   <CheckCircle size={16} className="text-green" />
@@ -620,7 +620,7 @@ export function BusinessView({
             <div className="modal-body text-center">
               <img src={selectedSub.proofImage} alt="Expanded Proof" className="proof-expanded-img" />
               <div className="mt-3 p-3 bg-elevated rounded text-left">
-                <span className="text-xs font-semibold text-muted">Worker Note:</span>
+                <span className="text-xs font-semibold text-muted">{t?.workerNote || "Worker Notes / Link:"}</span>
                 <p className="text-sm mt-1">{selectedSub.proofText}</p>
               </div>
             </div>
@@ -634,7 +634,7 @@ export function BusinessView({
           <div className="modal-content glass-card rejection-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <div>
-                <span className="badge badge-red mb-1">Reject Submission</span>
+                <span className="badge badge-red mb-1">{t?.reject || "Reject"}</span>
                 <h3>Provide Rejection Reason</h3>
                 <span className="text-xs text-muted">The slot and reward will be returned to your active campaign pool</span>
               </div>
@@ -643,7 +643,7 @@ export function BusinessView({
 
             <div className="modal-body">
               <div className="form-group">
-                <label className="form-label">Select Standard Feedback Reason:</label>
+                <label className="form-label">{t?.rejectionReasonLabel || "Select Standard Feedback Reason:"}</label>
                 <select 
                   className="form-select"
                   value={selectedReason}
@@ -658,7 +658,7 @@ export function BusinessView({
               <div className="alert-box-red mt-3">
                 <AlertTriangle size={18} className="text-danger flex-shrink-0" />
                 <p className="text-xs text-danger">
-                  Worker trust score will be adjusted and worker will receive an explanatory SMS notification.
+                  {t?.rejectionWarning || "Worker trust score will be adjusted and worker will receive an explanatory SMS notification."}
                 </p>
               </div>
 
@@ -668,14 +668,14 @@ export function BusinessView({
                   className="btn btn-secondary"
                   onClick={() => setRejectionModalSub(null)}
                 >
-                  Cancel
+                  {t?.cancel || "Cancel"}
                 </button>
                 <button 
                   type="button" 
                   className="btn btn-danger"
                   onClick={handleConfirmReject}
                 >
-                  Confirm Rejection
+                  {t?.confirmRejection || "Confirm Rejection"}
                 </button>
               </div>
             </div>

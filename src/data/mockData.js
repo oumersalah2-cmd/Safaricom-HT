@@ -165,11 +165,11 @@ export const initialSubmissions = [
     id: "sub-501",
     taskId: "task-101",
     taskTitle: "Google Maps 5-Star Review with Photo (Bole Branch)",
-    workerId: "worker-802",
-    workerName: "Selamawit Tadesse",
-    workerPhone: "0798 654 321",
-    workerTier: "Gold",
-    workerTrustScore: 98,
+    workerId: "worker-901",
+    workerName: "Kidus Girma",
+    workerPhone: "0712 345 678",
+    workerTier: "Silver",
+    workerTrustScore: 94,
     submittedAt: "2026-09-30T08:15:00Z",
     proofImage: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80",
     proofText: "Posted Google Maps review: 'Best macchiato in Bole! Super quick Wi-Fi and friendly baristas.' Attached fresh cup photo.",
@@ -193,11 +193,11 @@ export const initialSubmissions = [
     id: "sub-502",
     taskId: "task-102",
     taskTitle: "Install Kuraz App & Test Search for Addis Restaurants",
-    workerId: "worker-703",
-    workerName: "Dawit Abebe",
-    workerPhone: "0721 889 900",
+    workerId: "worker-901",
+    workerName: "Kidus Girma",
+    workerPhone: "0712 345 678",
     workerTier: "Silver",
-    workerTrustScore: 91,
+    workerTrustScore: 94,
     submittedAt: "2026-09-30T08:32:00Z",
     proofImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80",
     proofText: "Downloaded APK, searched for 'Kazanchis Tibs', found 4 restaurants in 1.4s.",
@@ -243,6 +243,64 @@ export const initialSubmissions = [
       hash: "pHash-a98f12c8b7410e3d",
       similarityScore: 0.89,
       note: "Potential Duplicate! Perceptual hash 89% match with sub-498 from another worker 3 days ago."
+    }
+  },
+  {
+    id: "sub-499",
+    taskId: "task-103",
+    taskTitle: "Watch Safaricom M-Pesa SuperApp Intro Video & Subscribe",
+    workerId: "worker-901",
+    workerName: "Kidus Girma",
+    workerPhone: "0712 345 678",
+    workerTier: "Silver",
+    workerTrustScore: 94,
+    submittedAt: "2026-09-29T10:15:00Z",
+    proofImage: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&auto=format&fit=crop&q=80",
+    proofText: "Subscribed and watched 2 mins of M-Pesa SuperApp video. Attached screenshot of bell notification.",
+    status: "approved",
+    rewardETB: 20.0,
+    mpesaReceipt: "SDF881023",
+    aiScreening: {
+      passed: true,
+      confidence: 98,
+      summary: "Verified YouTube subscription button active, bell icon toggled, timestamp matches video release.",
+      sentiment: "Positive",
+      detectedText: "Subscribed • Safaricom Ethiopia • Notifications All"
+    },
+    duplicateCheck: {
+      isDuplicate: false,
+      hash: "pHash-f91b00248c823e41",
+      similarityScore: 0.01,
+      note: "Clean, verified original capture."
+    }
+  },
+  {
+    id: "sub-490",
+    taskId: "task-104",
+    taskTitle: "Local Price Survey at Megabi Market",
+    workerId: "worker-901",
+    workerName: "Kidus Girma",
+    workerPhone: "0712 345 678",
+    workerTier: "Silver",
+    workerTrustScore: 94,
+    submittedAt: "2026-09-27T14:00:00Z",
+    proofImage: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80",
+    proofText: "Market survey attempt.",
+    status: "rejected",
+    rejectionReason: "Screenshot was blurry and store price board was not legible. Please retake under good lighting.",
+    rewardETB: 25.0,
+    aiScreening: {
+      passed: false,
+      confidence: 51,
+      summary: "Blur detected in lower region. Text OCR could not decipher grain unit pricing.",
+      sentiment: "Inconclusive",
+      detectedText: "blur detected • price illegible"
+    },
+    duplicateCheck: {
+      isDuplicate: false,
+      hash: "pHash-12ca94b7e80f551b",
+      similarityScore: 0.03,
+      note: "Unique capture."
     }
   }
 ];

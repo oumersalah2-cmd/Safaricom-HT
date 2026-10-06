@@ -2,27 +2,30 @@ import React from 'react';
 import { 
   Briefcase, 
   UserCheck, 
-  Zap, 
   Terminal, 
   Smartphone, 
   Volume2, 
   VolumeX, 
-  Globe 
+  Globe,
+  LogOut,
+  Wallet
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 
 export function Navbar({ 
+  user,
+  wallet,
   role, 
   setRole, 
   lang, 
   setLang, 
   t, 
-  worker, 
   onOpenWithdraw, 
   onTogglePhoneSim, 
   isPhoneSimOpen,
   soundEnabled,
-  setSoundEnabled
+  setSoundEnabled,
+  onLogout
 }) {
   const toggleSound = () => {
     const next = !soundEnabled;
@@ -30,6 +33,8 @@ export function Navbar({
     sound.enabled = next;
     if (next) sound.playKeypadBeep();
   };
+
+  const currentBalance = (wallet?.walletBalanceETB ?? 0);
 
   return (
     <header className="navbar-container">
@@ -42,13 +47,13 @@ export function Navbar({
           </div>
           <div className="brand-text-block">
             <div className="brand-title-row">
-              <h1 className="brand-name">{t.appTitle}</h1>
+              <h1 className="brand-name">{t?.appTitle || "Ethio Bucks"}</h1>
               <span className="safaricom-pill">
                 <span className="safaricom-pulse"></span>
                 SAFARICOM M-PESA
               </span>
             </div>
-            <p className="brand-subtitle">{t.tagline}</p>
+            <p className="brand-subtitle">{t?.tagline || "Micro-Tasks Marketplace on Safaricom M-Pesa"}</p>
           </div>
         </div>
 
@@ -62,7 +67,7 @@ export function Navbar({
             }}
           >
             <UserCheck size={16} />
-            <span>{t.workerRole}</span>
+            <span>{t?.workerRole || "Worker Portal"}</span>
           </button>
 
           <button 
@@ -73,18 +78,7 @@ export function Navbar({
             }}
           >
             <Briefcase size={16} />
-            <span>{t.businessRole}</span>
-          </button>
-
-          <button 
-            className={`role-pill demo-pill ${role === 'judge_demo' ? 'active' : ''}`}
-            onClick={() => {
-              setRole('judge_demo');
-              sound.playMpesaTone();
-            }}
-          >
-            <Zap size={16} className="text-gold" />
-            <span className="font-bold">{t.demoTour}</span>
+            <span>{t?.businessRole || "Business Portal"}</span>
           </button>
 
           <button 
@@ -95,39 +89,41 @@ export function Navbar({
             }}
           >
             <Terminal size={16} />
-            <span>{t.apiInspector}</span>
+            <span>{t?.apiInspector || "M-Pesa API Logs"}</span>
           </button>
         </div>
 
-        {/* Right Controls: Wallet quick pill, Phone sim, sound, lang */}
+        {/* Right Controls: Wallet quick pill, Phone sim, sound, lang, user */}
         <div className="navbar-actions">
-          {/* Quick Wallet Pill (only in worker view or anytime) */}
-          <button 
-            className="navbar-wallet-pill"
-            onClick={onOpenWithdraw}
-            title="Click to withdraw"
-          >
-            <span className="wallet-label">{t.availableBalance}:</span>
-            <span className="wallet-value">
-              {worker.walletBalanceETB.toFixed(2)} <span className="text-gold">ETB</span>
-            </span>
-          </button>
+          {/* Quick Wallet Pill (if worker) */}
+          {role === 'worker' && (
+            <button 
+              className="navbar-wallet-pill"
+              onClick={onOpenWithdraw}
+              title="Click to withdraw"
+            >
+              <Wallet size={14} className="text-green" />
+              <span className="wallet-value">
+                {currentBalance.toFixed(2)} <span className="text-gold">ETB</span>
+              </span>
+            </button>
+          )}
 
           {/* Interactive Phone Simulator Toggle */}
           <button 
             className={`icon-action-btn ${isPhoneSimOpen ? 'active' : ''}`}
             onClick={onTogglePhoneSim}
-            title="Toggle M-Pesa Phone USSD / Push Simulator"
+            title="Toggle Safaricom M-Pesa Phone & SMS Inbox"
           >
             <Smartphone size={18} />
-            <span className="btn-label-mobile">M-Pesa Phone</span>
+            <span className="btn-label-mobile">{t?.phoneSim || "M-Pesa Phone"}</span>
           </button>
 
           {/* Sound Toggle */}
           <button 
             className="icon-action-btn"
             onClick={toggleSound}
-            title={soundEnabled ? "Mute sounds" : "Enable sounds"}
+            title={soundEnabled ? (t?.mute || "Mute sounds") : (t?.unmute || "Enable sounds")}
           >
             {soundEnabled ? <Volume2 size={18} className="text-green" /> : <VolumeX size={18} className="text-faint" />}
           </button>
@@ -148,6 +144,20 @@ export function Navbar({
               <option value="om">Oromiffa (OM)</option>
             </select>
           </div>
+
+          {/* User Profile Badge & Logout */}
+          {user && (
+            <div className="user-profile-nav-wrap flex items-center gap-2">
+              <span className="user-nav-avatar" title={user.name}>{user.avatar || '👤'}</span>
+              <button 
+                className="icon-action-btn text-danger hover:bg-red-500/10" 
+                onClick={onLogout}
+                title="Sign Out"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

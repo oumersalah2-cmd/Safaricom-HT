@@ -1,0 +1,330 @@
+{
+  "users": [
+    {
+      "id": "usr-worker-1",
+      "phone": "0712 345 678",
+      "normalizedPhone": "251712345678",
+      "role": "worker",
+      "name": "Kidus Girma",
+      "avatar": "👨🏽‍💻",
+      "tier": "Silver",
+      "trustScore": 94,
+      "network": "Safaricom Ethiopia",
+      "referralCode": "TITAN-ET-8821",
+      "referralCount": 4,
+      "referralUnlockedETB": 60,
+      "createdAt": "2026-09-15T09:00:00Z"
+    },
+    {
+      "id": "usr-business-1",
+      "phone": "0789 201 000",
+      "normalizedPhone": "251789201000",
+      "role": "business",
+      "name": "Tomoca Coffee Roasters",
+      "legalName": "Tomoca Coffee PLC (Ethiopia)",
+      "avatar": "☕",
+      "verified": true,
+      "shortcode": "789201",
+      "mpesaTill": "251789201",
+      "network": "Safaricom Ethiopia",
+      "createdAt": "2026-09-01T10:00:00Z"
+    },
+    {
+      "id": "usr-business-2",
+      "phone": "0722 555 111",
+      "normalizedPhone": "251722555111",
+      "role": "business",
+      "name": "Kuraz Delivery",
+      "legalName": "Kuraz Technologies Ethiopia",
+      "avatar": "🛵",
+      "verified": true,
+      "shortcode": "654320",
+      "mpesaTill": "251654320",
+      "network": "Safaricom Ethiopia",
+      "createdAt": "2026-09-10T11:00:00Z"
+    }
+  ],
+  "wallets": {
+    "usr-worker-1": {
+      "userId": "usr-worker-1",
+      "walletBalanceETB": 185,
+      "escrowPendingETB": 85,
+      "lifetimeEarnedETB": 1420,
+      "dailyWithdrawnETB": 0,
+      "dailyLimitETB": 2000
+    },
+    "usr-business-1": {
+      "userId": "usr-business-1",
+      "balanceInEscrowETB": 3500,
+      "totalSpentETB": 8610,
+      "totalTasksApproved": 246,
+      "activeCampaignsCount": 3
+    },
+    "usr-business-2": {
+      "userId": "usr-business-2",
+      "balanceInEscrowETB": 2500,
+      "totalSpentETB": 4200,
+      "totalTasksApproved": 88,
+      "activeCampaignsCount": 2
+    }
+  },
+  "tasks": [
+    {
+      "id": "task-101",
+      "businessId": "usr-business-1",
+      "businessName": "Tomoca Coffee Roasters",
+      "businessLogo": "☕",
+      "category": "appReview",
+      "title": "Google Maps 5-Star Review with Photo (Bole Medhanialem Branch)",
+      "description": "Visit our newly opened Bole Medhanialem Tomoca branch, post a 5-star Google Maps review with a photo of our coffee cup, and upload proof.",
+      "guidelines": [
+        "Include a clear photo of the store or beverage",
+        "Mention friendly barista service or fresh roast macchiato",
+        "Keep the review live for at least 7 days"
+      ],
+      "rewardETB": 35,
+      "totalSlots": 100,
+      "completedSlots": 42,
+      "timerSeconds": 15,
+      "status": "active",
+      "minTier": "Silver",
+      "createdAt": "2026-09-30T06:00:00Z",
+      "escrowLockedETB": 3500,
+      "proofType": "screenshot",
+      "targetUrl": "https://maps.google.com/?cid=sample-tomoca-bole"
+    },
+    {
+      "id": "task-102",
+      "businessId": "usr-business-2",
+      "businessName": "Kuraz Delivery",
+      "businessLogo": "🛵",
+      "category": "testing",
+      "title": "Install Kuraz App & Test Search for Addis Ababa Restaurants",
+      "description": "Download the Kuraz Food App on Android, search for restaurants in Bole/Kazanchis, and screenshot the search results page showing query latency.",
+      "guidelines": [
+        "Search query must be 'Kazanchis Tibs' or 'Bole Burger'",
+        "Device status bar showing Safaricom 4G/5G must be visible",
+        "Write 1 sentence notes about app responsiveness"
+      ],
+      "rewardETB": 50,
+      "totalSlots": 50,
+      "completedSlots": 18,
+      "timerSeconds": 20,
+      "status": "active",
+      "minTier": "Silver",
+      "createdAt": "2026-09-30T07:15:00Z",
+      "escrowLockedETB": 2500,
+      "proofType": "screenshot",
+      "targetUrl": "https://play.google.com/store/apps/details?id=sample.kuraz.delivery"
+    },
+    {
+      "id": "task-103",
+      "businessId": "usr-business-1",
+      "businessName": "Safaricom Tech Partner",
+      "businessLogo": "🟢",
+      "category": "social",
+      "title": "Watch Safaricom M-Pesa SuperApp Intro Video & Subscribe",
+      "description": "Watch the Safaricom Ethiopia M-Pesa SuperApp demonstration video on YouTube, subscribe to the channel, and take a screenshot with bell notification enabled.",
+      "guidelines": [
+        "Red Subscribe button must show 'Subscribed'",
+        "Notification bell must be active",
+        "Must be logged in with genuine Google account"
+      ],
+      "rewardETB": 20,
+      "totalSlots": 200,
+      "completedSlots": 145,
+      "timerSeconds": 15,
+      "status": "active",
+      "minTier": "Bronze",
+      "createdAt": "2026-09-29T12:00:00Z",
+      "escrowLockedETB": 4000,
+      "proofType": "screenshot",
+      "targetUrl": "https://youtube.com/watch?v=sample-ethio-mpesa"
+    },
+    {
+      "id": "task-104",
+      "businessId": "usr-business-2",
+      "businessName": "Addis Agri Mart",
+      "businessLogo": "🌾",
+      "category": "localData",
+      "title": "Verify Teff Price per Quintal at Local Shola/Merkato Grain Shop",
+      "description": "We are compiling real-time grain index prices across Addis Ababa. Take a photo of the price board or ask a merchant for Magna Teff price in your subcity.",
+      "guidelines": [
+        "Specify shop name, sub-city (e.g. Yeka, Kirkos, Bole, Gulele)",
+        "Provide current price per quintal in ETB",
+        "Upload a clear photo of the store front or price tag"
+      ],
+      "rewardETB": 75,
+      "totalSlots": 40,
+      "completedSlots": 8,
+      "timerSeconds": 25,
+      "status": "active",
+      "minTier": "Gold",
+      "createdAt": "2026-09-30T07:45:00Z",
+      "escrowLockedETB": 3000,
+      "proofType": "screenshot",
+      "targetUrl": "#"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "sub-501",
+      "taskId": "task-101",
+      "taskTitle": "Google Maps 5-Star Review with Photo (Bole Medhanialem Branch)",
+      "workerId": "usr-worker-1",
+      "workerName": "Kidus Girma",
+      "workerPhone": "0712 345 678",
+      "workerTier": "Silver",
+      "workerTrustScore": 94,
+      "submittedAt": "2026-09-30T08:15:00Z",
+      "proofImage": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80",
+      "proofText": "Posted Google Maps review: 'Best macchiato in Bole! Super quick Wi-Fi and friendly baristas.' Attached fresh cup photo.",
+      "status": "pending",
+      "rewardETB": 35,
+      "aiScreening": {
+        "passed": true,
+        "confidence": 96,
+        "summary": "High confidence. Google Maps UI layout detected, 5 stars visible, reviewer name matches profile.",
+        "sentiment": "Positive (5 Stars)",
+        "detectedText": "Tomoca Coffee Bole Medhanialem • 5 stars • 15 mins ago • 'Best macchiato in Bole!'"
+      },
+      "duplicateCheck": {
+        "isDuplicate": false,
+        "hash": "pHash-a98f12c8b7410e3d",
+        "similarityScore": 0.02,
+        "note": "Original image. No matching perceptual hash in the last 10,000 platform submissions."
+      }
+    },
+    {
+      "id": "sub-502",
+      "taskId": "task-102",
+      "taskTitle": "Install Kuraz App & Test Search for Addis Ababa Restaurants",
+      "workerId": "usr-worker-1",
+      "workerName": "Kidus Girma",
+      "workerPhone": "0712 345 678",
+      "workerTier": "Silver",
+      "workerTrustScore": 94,
+      "submittedAt": "2026-09-30T08:32:00Z",
+      "proofImage": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80",
+      "proofText": "Downloaded APK, searched for 'Kazanchis Tibs', found 4 restaurants in 1.4s.",
+      "status": "pending",
+      "rewardETB": 50,
+      "aiScreening": {
+        "passed": true,
+        "confidence": 91,
+        "summary": "Kuraz search bar detected with query text 'Kazanchis Tibs' and restaurant list results displayed.",
+        "sentiment": "Neutral / Objective",
+        "detectedText": "Kuraz Food • Results for Kazanchis Tibs • 4 spots found"
+      },
+      "duplicateCheck": {
+        "isDuplicate": false,
+        "hash": "pHash-c47e819b22a0f81d",
+        "similarityScore": 0.04,
+        "note": "Unique screenshot. Device status bar matches worker phone resolution."
+      }
+    },
+    {
+      "id": "sub-499",
+      "taskId": "task-103",
+      "taskTitle": "Watch Safaricom M-Pesa SuperApp Intro Video & Subscribe",
+      "workerId": "usr-worker-1",
+      "workerName": "Kidus Girma",
+      "workerPhone": "0712 345 678",
+      "workerTier": "Silver",
+      "workerTrustScore": 94,
+      "submittedAt": "2026-09-29T10:15:00Z",
+      "proofImage": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&auto=format&fit=crop&q=80",
+      "proofText": "Subscribed and watched 2 mins of M-Pesa SuperApp video. Attached screenshot of bell notification.",
+      "status": "approved",
+      "rewardETB": 20,
+      "mpesaReceipt": "SDF881023",
+      "aiScreening": {
+        "passed": true,
+        "confidence": 98,
+        "summary": "Verified YouTube subscription button active, bell icon toggled, timestamp matches video release.",
+        "sentiment": "Positive",
+        "detectedText": "Subscribed • Safaricom Ethiopia • Notifications All"
+      },
+      "duplicateCheck": {
+        "isDuplicate": false,
+        "hash": "pHash-f91b00248c823e41",
+        "similarityScore": 0.01,
+        "note": "Clean, verified original capture."
+      }
+    }
+  ],
+  "mpesa_transactions": [
+    {
+      "id": "log-1",
+      "timestamp": "2026-09-30 08:12:04",
+      "type": "STK_PUSH_REQUEST",
+      "endpoint": "/mpesa/stkpush/v1/processrequest",
+      "shortCode": "789201",
+      "amountETB": 3500,
+      "phone": "251789201000",
+      "status": "SUCCESS",
+      "checkoutRequestId": "ws_CO_30092026081204123456",
+      "details": "Merchant Escrow Deposit - 100 slots @ 35 ETB"
+    },
+    {
+      "id": "log-2",
+      "timestamp": "2026-09-30 08:12:18",
+      "type": "STK_CALLBACK",
+      "endpoint": "/api/mpesa/callbacks/stk",
+      "resultCode": 0,
+      "resultDesc": "The service request is processed successfully.",
+      "mpesaReceipt": "SDF91KA49X",
+      "amountETB": 3500,
+      "status": "PROCESSED",
+      "details": "Escrow account credited: 3,500.00 ETB. Task-101 published live."
+    },
+    {
+      "id": "log-3",
+      "timestamp": "2026-09-30 08:28:45",
+      "type": "B2C_PAYOUT_REQUEST",
+      "endpoint": "/mpesa/b2c/v1/paymentrequest",
+      "phone": "251712345678",
+      "amountETB": 150,
+      "status": "QUEUED",
+      "conversationId": "AG_20260930_0000572b9a712f5c",
+      "details": "Worker Wallet Withdrawal to Safaricom M-Pesa"
+    },
+    {
+      "id": "log-4",
+      "timestamp": "2026-09-30 08:28:48",
+      "type": "B2C_CALLBACK",
+      "endpoint": "/api/mpesa/callbacks/b2c",
+      "resultCode": 0,
+      "resultDesc": "The service request is processed successfully.",
+      "mpesaReceipt": "SDF94MB81Z",
+      "amountETB": 150,
+      "status": "COMPLETED",
+      "details": "Worker 0712 345 678 credited 150.00 ETB via M-Pesa B2C."
+    }
+  ],
+  "sms_notifications": [
+    {
+      "id": "sms-1791323945613-711",
+      "phone": "071 234 5678",
+      "normalizedPhone": "251712345678",
+      "sender": "M-PESA",
+      "time": "2026-10-06 21:59:05",
+      "body": "Your Ethio Bucks verification code is 216423. Valid for 5 minutes. Do not share this code. Safaricom Ethiopia."
+    },
+    {
+      "id": "sms-1",
+      "phone": "0712 345 678",
+      "sender": "M-PESA",
+      "time": "2026-09-30 08:28:48",
+      "body": "SDF94MB81Z Confirmed. 251712345678 has received ETB 150.00 from Ethio Bucks Escrow on 30/09/2026. Disbursed via Safaricom B2C API."
+    },
+    {
+      "id": "sms-2",
+      "phone": "0789 201 000",
+      "sender": "M-PESA",
+      "time": "2026-09-30 08:12:18",
+      "body": "SDF91KA49X Confirmed. ETB 3,500.00 paid to Ethio Bucks Escrow (Till 789201) on 30/09/2026. Safaricom Ethiopia."
+    }
+  ],
+  "otps": {}
+}

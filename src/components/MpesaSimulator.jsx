@@ -12,13 +12,17 @@ export function MpesaSimulator({
   isOpen, 
   onClose, 
   activePrompt, // { type: 'STK_PUSH' | 'B2C_NOTIF', amount, title, tillNumber, phone, callback }
-  onResolvePrompt 
+  onResolvePrompt,
+  smsList = [],
+  onAddSms,
+  t
 }) {
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [activeTab, setActiveTab] = useState('phone'); // 'phone' | 'sms'
-  const [recentSmsList, setRecentSmsList] = useState([
+
+  const [internalSmsList, setInternalSmsList] = useState([
     {
       id: "sms-1",
       sender: "M-PESA",
@@ -26,6 +30,8 @@ export function MpesaSimulator({
       body: "SDF91KA49X Confirmed. ETB 3,500.00 deposited into Ethio Bucks Escrow Account 789201 on 30/09/2026. Safaricom M-Pesa."
     }
   ]);
+
+  const effectiveSmsList = smsList && smsList.length > 0 ? smsList : internalSmsList;
 
   // Adjust state during render when activePrompt changes
   const [prevPrompt, setPrevPrompt] = useState(activePrompt);
@@ -35,6 +41,7 @@ export function MpesaSimulator({
       setPin('');
       setPinError('');
       setIsProcessing(false);
+      setActiveTab('phone');
     }
   }
 
@@ -60,7 +67,7 @@ export function MpesaSimulator({
 
   const handleConfirmPin = () => {
     if (pin.length !== 4) {
-      setPinError('Enter a 4-digit PIN');
+      setPinError(t?.enterPinLabel || 'Enter a 4-digit PIN');
       return;
     }
 
@@ -78,9 +85,14 @@ export function MpesaSimulator({
           id: "sms-" + Date.now(),
           sender: "M-PESA",
           time: "Just now",
-          body: `${receiptCode} Confirmed. ETB ${activePrompt.amount?.toFixed(2) || '150.00'} ${activePrompt.type === 'STK_PUSH' ? 'paid to Ethio Bucks Escrow (Till ' + (activePrompt.tillNumber || '789201') + ')' : 'received from Ethio Bucks Escrow'}. New balance ETB 2,490.50.`
+          body: `${receiptCode} Confirmed. ETB ${activePrompt.amount?.toFixed(2) || '150.00'} ${activePrompt.type === 'STK_PUSH' ? 'paid to Ethio Bucks Escrow (Till ' + (activePrompt.tillNumber || '789201') + ')' : 'received from Ethio Bucks Escrow'}. New Safaricom M-Pesa balance ETB 2,490.50.`
         };
-        setRecentSmsList(prev => [newSms, ...prev]);
+        
+        if (onAddSms) {
+          onAddSms(newSms);
+        } else {
+          setInternalSmsList(prev => [newSms, ...prev]);
+        }
         
         if (onResolvePrompt) {
           onResolvePrompt(true, receiptCode);
@@ -127,15 +139,15 @@ export function MpesaSimulator({
                 className={`phone-tab ${activeTab === 'phone' ? 'active' : ''}`}
                 onClick={() => setActiveTab('phone')}
               >
-                STK Prompt
+                {t?.stkPromptTab || "STK Prompt"}
               </button>
               <button 
                 className={`phone-tab ${activeTab === 'sms' ? 'active' : ''}`}
                 onClick={() => setActiveTab('sms')}
               >
-                SMS Inbox ({recentSmsList.length})
+                {t?.smsInboxTab || "SMS Inbox"} ({effectiveSmsList.length})
               </button>
-              <button className="phone-close-btn" onClick={onClose} title="Close Phone">
+              <button className="phone-close-btn" onClick={onClose} title={t?.close || "Close Phone"}>
                 <X size={15} />
               </button>
             </div>
@@ -151,7 +163,7 @@ export function MpesaSimulator({
                       </div>
                       <div>
                         <h4 className="stk-dialog-title">Safaricom M-PESA</h4>
-                        <span className="stk-dialog-sub">SIM Toolkit Push Request</span>
+                        <span className="stk-dialog-sub">{t?.simToolkitRequest || "SIM Toolkit Push Request"}</span>
                       </div>
                     </div>
 
@@ -167,7 +179,7 @@ export function MpesaSimulator({
                       )}
 
                       <div className="pin-input-display">
-                        <label className="text-xs text-muted block mb-1">Enter 4-Digit M-PESA PIN:</label>
+                        <label className="text-xs text-muted block mb-1">{t?.enterPinLabel || "Enter 4-Digit M-PESA PIN:"}</label>
                         <div className="pin-dots-row">
                           {[0, 1, 2, 3].map((idx) => (
                             <div 
@@ -225,14 +237,14 @@ export function MpesaSimulator({
                           onClick={handleCancel}
                           disabled={isProcessing}
                         >
-                          Cancel
+                          {t?.cancel || "Cancel"}
                         </button>
                         <button 
                           className="btn btn-primary btn-sm flex-1"
                           onClick={handleConfirmPin}
                           disabled={isProcessing || pin.length !== 4}
                         >
-                          {isProcessing ? "Authorizing..." : "Authorize M-Pesa"}
+                          {isProcessing ? (t?.authorizing || "Authorizing...") : (t?.authorizeMpesa || "Authorize M-Pesa")}
                         </button>
                       </div>
                     </div>
@@ -242,14 +254,14 @@ export function MpesaSimulator({
                     <div className="mpesa-hero-logo">
                       <div className="mpesa-logo-circle">M</div>
                       <h4 className="mt-2 font-bold text-main">Safaricom M-PESA</h4>
-                      <span className="badge badge-green mt-1">Live Sandbox Ready</span>
+                      <span className="badge badge-green mt-1">{t?.sandboxActive || "Live Sandbox Ready"}</span>
                     </div>
 
                     <div className="phone-idle-instruction">
                       <ShieldCheck size={28} className="text-green mx-auto mb-2" />
-                      <p className="text-sm font-semibold">Simulator Waiting for Triggers</p>
+                      <p className="text-sm font-semibold">{t?.idleSimulator || "Simulator Waiting for Triggers"}</p>
                       <p className="text-xs text-muted mt-1">
-                        Trigger an STK Push by funding a business task, or initiate a B2C withdrawal to view instant phone prompts here.
+                        {t?.idleDesc || "Trigger an STK Push by funding a business task, or initiate a B2C withdrawal to view instant phone prompts here."}
                       </p>
                     </div>
 
@@ -263,13 +275,17 @@ export function MpesaSimulator({
                             time: "Just now",
                             body: "SDF88123X Confirmed. ETB 100.00 received from Ethio Bucks escrow. Safaricom Ethiopia."
                           };
-                          setRecentSmsList(prev => [newSms, ...prev]);
+                          if (onAddSms) {
+                            onAddSms(newSms);
+                          } else {
+                            setInternalSmsList(prev => [newSms, ...prev]);
+                          }
                           setActiveTab('sms');
                           sound.playMpesaTone();
                         }}
                       >
                         <MessageSquare size={14} />
-                        Simulate Test M-Pesa SMS
+                        {t?.simulateTestSms || "Simulate Test M-Pesa SMS"}
                       </button>
                     </div>
                   </div>
@@ -281,10 +297,10 @@ export function MpesaSimulator({
             {activeTab === 'sms' && (
               <div className="phone-sms-view animate-fade-in">
                 <div className="sms-list-header">
-                  <h5 className="font-semibold text-sm">Official Safaricom M-Pesa Alerts</h5>
+                  <h5 className="font-semibold text-sm">{t?.officialAlerts || "Official Safaricom M-Pesa Alerts"}</h5>
                 </div>
                 <div className="sms-bubble-list">
-                  {recentSmsList.map((sms) => (
+                  {effectiveSmsList.map((sms) => (
                     <div key={sms.id} className="sms-message-bubble">
                       <div className="sms-meta-row">
                         <span className="sms-sender">{sms.sender}</span>

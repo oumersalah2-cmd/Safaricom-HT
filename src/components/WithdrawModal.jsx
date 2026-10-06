@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   ShieldCheck, 
   CheckCircle2, 
-  AlertCircle
+  AlertCircle,
+  Smartphone
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { sound } from '../utils/audio';
@@ -12,6 +13,7 @@ export function WithdrawModal({
   onClose, 
   worker, 
   onConfirmWithdraw,
+  onOpenPhoneSim,
   t 
 }) {
   const [amount, setAmount] = useState(50);
@@ -80,14 +82,22 @@ export function WithdrawModal({
     onClose();
   };
 
+  const handleViewSms = () => {
+    setSuccessReceipt(null);
+    onClose();
+    if (onOpenPhoneSim) {
+      onOpenPhoneSim();
+    }
+  };
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-content glass-card withdraw-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div>
-            <span className="badge badge-green mb-1">Instant B2C Payout</span>
-            <h3>{t.withdrawBtn}</h3>
-            <span className="text-xs text-muted">Direct to your Safaricom Ethiopia M-Pesa account</span>
+            <span className="badge badge-green mb-1">{t?.instantB2c || "Instant B2C Payout"}</span>
+            <h3>{t?.withdrawBtn || "Withdraw to M-Pesa"}</h3>
+            <span className="text-xs text-muted">{t?.instantPayoutDesc || "Direct to your Safaricom Ethiopia M-Pesa account"}</span>
           </div>
           <button className="btn-close" onClick={onClose}>✕</button>
         </div>
@@ -97,46 +107,57 @@ export function WithdrawModal({
             <div className="receipt-view animate-fade-in text-center">
               <div className="receipt-success-badge">
                 <CheckCircle2 size={48} className="text-green mx-auto mb-2" />
-                <h4 className="font-bold text-xl text-green">M-Pesa Payout Successful!</h4>
-                <p className="text-xs text-muted">Funds instantly credited to your mobile wallet</p>
+                <h4 className="font-bold text-xl text-green">{t?.payoutSuccess || "M-Pesa Payout Successful!"}</h4>
+                <p className="text-xs text-muted">{t?.payoutSuccessDesc || "Funds instantly credited to your mobile wallet"}</p>
               </div>
 
               <div className="receipt-details-card glass-card my-4 text-left">
                 <div className="receipt-row">
-                  <span className="text-muted">M-Pesa Receipt:</span>
+                  <span className="text-muted">{t?.mpesaReceipt || "M-Pesa Receipt:"}</span>
                   <strong>{successReceipt.receiptNumber}</strong>
                 </div>
                 <div className="receipt-row">
-                  <span className="text-muted">Amount Disbursed:</span>
+                  <span className="text-muted">{t?.amountDisbursed || "Amount Disbursed:"}</span>
                   <strong className="text-green text-lg">{successReceipt.amount.toFixed(2)} ETB</strong>
                 </div>
                 <div className="receipt-row">
-                  <span className="text-muted">Recipient Number:</span>
+                  <span className="text-muted">{t?.recipientNumber || "Recipient Number:"}</span>
                   <strong>+251 {successReceipt.phone}</strong>
                 </div>
                 <div className="receipt-row">
-                  <span className="text-muted">Disbursal Channel:</span>
+                  <span className="text-muted">{t?.disbursalChannel || "Disbursal Channel:"}</span>
                   <span className="badge badge-green badge-sm">Safaricom B2C API</span>
                 </div>
                 <div className="receipt-row">
-                  <span className="text-muted">Transaction Fee:</span>
-                  <span className="text-green font-bold">0.00 ETB (Free)</span>
+                  <span className="text-muted">{t?.transactionFee || "Transaction Fee:"}</span>
+                  <span className="text-green font-bold">{t?.free || "0.00 ETB (Free)"}</span>
                 </div>
               </div>
 
-              <button 
-                className="btn btn-primary btn-lg w-full"
-                onClick={handleFinish}
-              >
-                Done
-              </button>
+              <div className="receipt-actions-row flex flex-col gap-2">
+                {onOpenPhoneSim && (
+                  <button 
+                    className="btn btn-secondary w-full flex items-center justify-center gap-2"
+                    onClick={handleViewSms}
+                  >
+                    <Smartphone size={16} />
+                    <span>{t?.viewSmsBtn || "View M-Pesa SMS on Safaricom Phone"}</span>
+                  </button>
+                )}
+                <button 
+                  className="btn btn-primary btn-lg w-full"
+                  onClick={handleFinish}
+                >
+                  {t?.done || "Done"}
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleWithdrawSubmit} className="withdraw-form">
               {/* Balance Bar */}
               <div className="withdraw-balance-box">
                 <div>
-                  <span className="text-xs text-muted block">{t.availableBalance}:</span>
+                  <span className="text-xs text-muted block">{t?.availableBalance || "Available Balance"}:</span>
                   <strong className="text-2xl text-green font-bold">
                     {worker.walletBalanceETB.toFixed(2)} <span className="text-gold text-base">ETB</span>
                   </strong>
@@ -151,7 +172,7 @@ export function WithdrawModal({
 
               {/* Quick Amount Selector */}
               <div className="form-group">
-                <label className="form-label">Select Amount to Cash Out:</label>
+                <label className="form-label">{t?.selectAmount || "Select Amount to Cash Out:"}</label>
                 <div className="quick-amount-pills">
                   {[25, 50, 100, Math.floor(worker.walletBalanceETB)].map((val) => (
                     <button
@@ -168,7 +189,7 @@ export function WithdrawModal({
 
               {/* Custom amount input */}
               <div className="form-group">
-                <label className="form-label">Or Custom Amount (ETB):</label>
+                <label className="form-label">{t?.customAmount || "Or Custom Amount (ETB):"}</label>
                 <input 
                   type="number" 
                   min="10"
@@ -186,7 +207,7 @@ export function WithdrawModal({
 
               {/* Safaricom Phone */}
               <div className="form-group">
-                <label className="form-label">M-Pesa Registered Phone Number:</label>
+                <label className="form-label">{t?.registeredPhone || "M-Pesa Registered Phone Number:"}</label>
                 <div className="phone-prefix-input-wrap">
                   <span className="phone-prefix-tag">+251</span>
                   <input 
@@ -198,7 +219,7 @@ export function WithdrawModal({
                   />
                 </div>
                 <span className="text-xs text-muted mt-1 block">
-                  Only Safaricom Ethiopia 07XX numbers receive instant B2C payouts.
+                  {t?.phoneNotice || "Only Safaricom Ethiopia 07XX numbers receive instant B2C payouts."}
                 </span>
               </div>
 
@@ -213,7 +234,7 @@ export function WithdrawModal({
               <div className="fee-waived-banner">
                 <ShieldCheck size={18} className="text-green flex-shrink-0" />
                 <span className="text-xs text-muted">
-                  0% withdrawal fee for workers • Powered by Safaricom Daraja B2C
+                  {t?.feeWaived || "0% withdrawal fee for workers • Powered by Safaricom Daraja B2C"}
                 </span>
               </div>
 
@@ -225,14 +246,14 @@ export function WithdrawModal({
                   onClick={onClose}
                   disabled={isProcessing}
                 >
-                  Cancel
+                  {t?.cancel || "Cancel"}
                 </button>
                 <button 
                   type="submit" 
                   className="btn btn-primary"
                   disabled={isProcessing || worker.walletBalanceETB < 10}
                 >
-                  {isProcessing ? "Disbursing via M-Pesa..." : `Withdraw ${parseFloat(amount || 0).toFixed(2)} ETB`}
+                  {isProcessing ? (t?.disbursing || "Disbursing via M-Pesa...") : `${t?.withdrawAction || "Withdraw"} ${parseFloat(amount || 0).toFixed(2)} ETB`}
                 </button>
               </div>
             </form>
